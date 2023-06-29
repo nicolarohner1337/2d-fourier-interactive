@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fourier Spectrogram</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+</head>
+<body>
+    <py-config>
+        packages = ["numpy", "scipy","matplotlib"]
+      </py-config>
+  
+    <py-script>
+        import numpy as np
+        from scipy.fft import fft2, fftshift
+        import matplotlib.pyplot as plt
+        import io, base64
+
+        def perform_2d_fourier_transform(pixel_data):
+            # Convert the pixel data to a NumPy array
+            data = np.array(pixel_data.to_py())
+            grayscale_data = np.dot(data[:, :, :3], [0.299, 0.587, 0.114])
+
+            # Perform the inverse 2D Fourier transform
+            inverse_transform = np.fft.ifftshift(grayscale_data)  # Shift the spectrum back
+            inverse_transform = np.fft.ifft2(inverse_transform).real  # Compute the inverse transform
+            
+            fig, ax = plt.subplots(figsize=(4, 4), dpi=100,frameon=False)  # Set the size to 400x400 pixels
+            ax.imshow(inverse_transform, cmap='gray')
+            ax.axis('off')
+            buf = io.BytesIO()
+            plt.savefig(buf, format='png',dpi=100)
+            buf.seek(0)
+            img_str = 'data:image/png;base64,' + base64.b64encode(buf.read()).decode('UTF-8')
+            plt.close(fig)  # Close the figure to free up resources
+        
+            return img_str
+            
+            
+
+
+    </py-script>
+    <div id="canvas-container">
+        <div class="canvas-wrapper">
+            <canvas id="left-canvas" width="400" height="400"></canvas>
+        </div>
+        <div class="canvas-wrapper">
+            <canvas id="right-canvas" width="400" height="400"></canvas>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button id="reset-button">Reset</button>
+      </div>
+    <!-- Additional controls can be added here -->
+
+    <script src="script.js"></script>
+</body>
+</html>
