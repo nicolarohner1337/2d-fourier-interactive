@@ -19,11 +19,6 @@ This project provides an interactive interface to draw on a canvas and apply a 2
 1. Open the website in your browser
 2. Click and drag on the canvas to draw your desired shape
 3. The magnitude spectrum of the drawn image will be displayed in real-time
-4. Adjust the canvas size and resolution to see the effects on the transformation
-5. Click the "Apply Transformation" button to see the transformed image
-6. Use the "Show Original" button to toggle between the original drawing and the transformed image
-7. Experiment with different drawings and canvas settings to explore the Fourier transformation
-
 ## Contributions
 
 Feedback, bug reports, and pull requests are welcome! If you have any ideas or suggestions for improvements, please feel free to contribute.
